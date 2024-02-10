@@ -1,10 +1,11 @@
 <div class="wrapper">
+    <h1 class="page-title">Angular Interactive Table</h1>
+
     <input type="text" [(ngModel)]="filterValue" placeholder="Filter" (input)="applyFilters()">
 
     <div class="checkbox-wrapper">
+        <h3 style="font-weight: 600; display: block;">Column Display Control:</h3>
         <div class="columns-hide-btns">
-            <h3 style="font-weight: 600; display: block;">Column Display Control:</h3>
-
             <div class="btn" *ngFor="let column of columns">
                 <label>
                     <input type="checkbox" [checked]="column.visible" (change)="toggleColumn(column)">
@@ -24,6 +25,7 @@
     </div>
 
 
+    @if (filteredUsers.length>0) {
 
     <div style="overflow-x:auto;">
 
@@ -31,7 +33,7 @@
             <thead>
                 <tr>
                     <th *ngFor="let column of getVisibleColumns" (click)="sort(column.name) ">
-                        <span *ngIf="column.visible">
+                        <span *ngIf="column.visible" class="column-title">
                             {{ column.name }}
                             <span *ngIf="sortColumn === column.name">
                                 {{ sortDirection === 'asc' ? '▲' : '▼' }}
@@ -40,6 +42,7 @@
                     </th>
                 </tr>
             </thead>
+
             <tbody style="overflow-x: hidden;">
                 <tr *ngFor="let user of filteredUsers | slice:(currentPage-1)*itemsPerPage:currentPage*itemsPerPage">
                     <td *ngFor="let column of getVisibleColumns" [class.wrap-text]="column.name !== 'picture'"
@@ -54,13 +57,18 @@
                     </td>
                 </tr>
             </tbody>
-
         </table>
     </div>
-
+    }@else {
+    <div class="not-found">We're sorry, but we couldn't find any results for the word <span>'{{filterValue}}'</span>.
+        Please
+        try another keyword</div>
+    }
     <div *ngIf="totalItems > itemsPerPage" class="pagination">
         <div *ngFor="let page of getPages()">
             <button [class.active-page]="currentPage === page" (click)="onPageChange(page)">{{ page }}</button>
         </div>
     </div>
 </div>
+
+<div class="go-up" (click)="scrollToTop()"> ▲ </div>

@@ -1,6 +1,28 @@
 @media (max-width: 768px) {
     .table-container {
         overflow-x: auto;
+
+    }
+}
+
+.page-title {
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
+.table-container {
+    .column-title {
+        display: flex;
+        flex-wrap: nowrap;
+        gap: 10px;
+    }
+}
+
+.not-found {
+    font-size: 14x;
+
+    & span {
+        font-weight: 600;
     }
 }
 
@@ -12,13 +34,7 @@
     white-space: normal;
 }
 
-.columns-hide-btns {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 5px;
-    margin: 20px 0;
-}
+
 
 
 
@@ -50,7 +66,7 @@ table {
         }
 
         tr:hover {
-            background-color: #ddd;
+            background-color: #ADD8E6;
         }
     }
 }
@@ -94,15 +110,26 @@ button {
     display: flex;
     flex-direction: row;
     gap: 10px;
+    align-items: center;
+    justify-content: left;
     margin-bottom: 20px;
     flex-wrap: wrap;
 }
 
 .checkbox-wrapper {
+    margin-top: 20px;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     gap: 15px;
-    align-items: center;
+    margin-bottom: 20px;
+
+    .columns-hide-btns {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 10px;
+        flex-direction: row;
+    }
 
     label {
         display: block;
@@ -157,5 +184,31 @@ button {
     select:focus {
         outline: none;
         border-color: #007bff;
+    }
+}
+
+.go-up {
+    position: fixed;
+    bottom: 40px;
+    right: 0px;
+
+    background-color: #add8e67d;
+
+    border-radius: 50% 0 0 50%;
+    width: 50px;
+    height: 50px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+
+    @media (max-width: 450px) {
+        bottom: 90px;
+    }
+
+    &:hover {
+        background-color: #add8e6;
     }
 }

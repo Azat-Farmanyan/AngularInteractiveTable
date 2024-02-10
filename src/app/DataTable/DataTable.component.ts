@@ -113,7 +113,6 @@ export class DataTableComponent implements OnInit {
 
   onPageChange(page: number) {
     this.currentPage = page;
-    this.scrollToTop();
   }
 
   toggleColumn(column: { name: string; visible: boolean }) {
@@ -122,8 +121,6 @@ export class DataTableComponent implements OnInit {
     if (index !== -1) {
       this.visibleColumns[index].visible = !this.visibleColumns[index].visible;
     }
-
-    console.log(this.visibleColumns);
   }
 
   scrollToTop() {
