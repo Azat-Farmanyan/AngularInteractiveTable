@@ -20,6 +20,8 @@
     margin: 20px 0;
 }
 
+
+
 table {
     width: 100%;
     border-collapse: collapse;
@@ -156,11 +158,4 @@ button {
         outline: none;
         border-color: #007bff;
     }
-}
-
-.custom-break {
-    overflow-wrap: break-word;
-    word-break: break-all;
-    hyphens: auto;
-    white-space: normal !important;
 }

@@ -4,7 +4,6 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 @Pipe({
   name: 'highlight',
   standalone: true,
-  pure: true,
 })
 export class HighlightPipe implements PipeTransform {
   constructor(private sanitizer: DomSanitizer) {}
@@ -12,10 +11,9 @@ export class HighlightPipe implements PipeTransform {
   transform(value: string, searchTerm: string): SafeHtml {
     if (value == null || searchTerm == null) return value;
 
-    // Convert value to string
     let valueString: string;
 
-    console.log(value);
+    value = String(value);
 
     if (typeof value === 'object') {
       valueString = JSON.stringify(value);

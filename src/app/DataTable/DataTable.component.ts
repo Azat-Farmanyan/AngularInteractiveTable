@@ -41,23 +41,28 @@ export class DataTableComponent implements OnInit {
   }
   itemsPerPageOptions: number[] = [10, 25, 50, 100]; // Add more options if needed
   onItemsPerPageChange() {
-    this.currentPage = 1; // Reset to the first page when changing the number of records per page
+    this.currentPage = 1;
   }
+
   applyFilters() {
     this.filteredUsers = this.users.filter((user) => {
-      // Применение фильтрации по полю "name" и "email"
-      return (
-        (user.name?.first &&
-          user.name.first
-            .toLowerCase()
-            .includes(this.filterValue.toLowerCase())) ||
-        (user.name?.last &&
-          user.name.last
-            .toLowerCase()
-            .includes(this.filterValue.toLowerCase())) ||
-        (user.email &&
-          user.email.toLowerCase().includes(this.filterValue.toLowerCase()))
-      );
+      const filterValueLower = this.filterValue.toLowerCase();
+
+      return Object.values(user).some((value) => {
+        if (
+          typeof value === 'string' &&
+          value.toLowerCase().includes(filterValueLower)
+        ) {
+          return true;
+        } else if (typeof value === 'object' && value !== null) {
+          return Object.values(value).some(
+            (nestedValue) =>
+              typeof nestedValue === 'string' &&
+              nestedValue.toLowerCase().includes(filterValueLower)
+          );
+        }
+        return false;
+      });
     });
 
     this.totalItems = this.filteredUsers.length;
@@ -108,6 +113,7 @@ export class DataTableComponent implements OnInit {
 
   onPageChange(page: number) {
     this.currentPage = page;
+    this.scrollToTop();
   }
 
   toggleColumn(column: { name: string; visible: boolean }) {
@@ -118,5 +124,9 @@ export class DataTableComponent implements OnInit {
     }
 
     console.log(this.visibleColumns);
+  }
+
+  scrollToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 }
