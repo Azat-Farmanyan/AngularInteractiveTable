@@ -1,0 +1,57 @@
+<div class="wrapper">
+    <input type="text" [(ngModel)]="filterValue" placeholder="Filter" (input)="applyFilters()">
+
+    <div class="checkbox-wrapper">
+        <div class="columns-hide-btns">
+            <h3 style="font-weight: 600;">Column Display Control:</h3>
+
+            <div class="btn" *ngFor="let column of columns">
+                <label>
+                    <input type="checkbox" [checked]="column.visible" (change)="toggleColumn(column)">
+                    <span>
+                        {{ column.name }}
+                    </span>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="records-per-page">
+        <label for="perPage">Records per page:</label>
+        <select id="perPage" [(ngModel)]="itemsPerPage" (change)="onItemsPerPageChange()">
+            <option *ngFor="let option of itemsPerPageOptions" [value]="option">{{ option }}</option>
+        </select>
+    </div>
+    <table class="table-container">
+        <thead>
+            <tr>
+                <th *ngFor="let column of getVisibleColumns" (click)="sort(column.name) ">
+                    <span *ngIf="column.visible">
+                        {{ column.name }}
+                        <span *ngIf="sortColumn === column.name">
+                            {{ sortDirection === 'asc' ? '▲' : '▼' }}
+                        </span>
+                    </span>
+                </th>
+            </tr>
+        </thead>
+        <tbody style="overflow-x: hidden;">
+            <tr *ngFor="let user of filteredUsers | slice:(currentPage-1)*itemsPerPage:currentPage*itemsPerPage">
+                <td *ngFor="let column of getVisibleColumns" [class.wrap-text]="column.name !== 'picture'">
+                    @if (column.name==='picture') {
+                    <img [src]="getValue(user, column.name)" [alt]="column.name">
+                    }@else {
+                    <span *ngIf="column.visible" class="custom-break"
+                        [innerHTML]="getValue(user, column.name) | highlight:filterValue"></span>
+                    }
+
+                </td>
+            </tr>
+        </tbody>
+
+    </table>
+    <div *ngIf="totalItems > itemsPerPage" class="pagination">
+        <div *ngFor="let page of getPages()">
+            <button [class.active-page]="currentPage === page" (click)="onPageChange(page)">{{ page }}</button>
+        </div>
+    </div>
+</div>
